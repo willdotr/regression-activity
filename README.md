@@ -1,12 +1,12 @@
 # Inside the Models
 
-**App:** _paste your public Streamlit link here_ · **Created by Willie Robinson**
+**App:** https://regression-activity-wdr.streamlit.app/ · **Created by Willie Robinson**
 
 | Section | Direct link | My viewer should walk away knowing… |
 |---|---|---|
-| Push & Pull (linear regression) | _app link_`/linear` | A prediction is a starting point plus one signed push per feature, and a coefficient belongs to the model while a push belongs to one person. |
-| Wisdom of the Forest (random forest) | _app link_`/forest` | A forest averages many different trees (each trained on different data and questions), and disagreement between trees is not the same as real uncertainty. |
-| One Correction at a Time (gradient boosting) | _app link_`/boosting` | Boosting adds one small correction per round to fix what is still wrong, and validation error (not training error) tells you when to stop. |
+| Push & Pull (linear regression) | https://regression-activity-wdr.streamlit.app/linear | A prediction is a starting point plus one signed push per feature, and a coefficient belongs to the model while a push belongs to one person. |
+| Wisdom of the Forest (random forest) | https://regression-activity-wdr.streamlit.app/forest | A forest averages many different trees (each trained on different data and questions), and disagreement between trees is not the same as real uncertainty. |
+| One Correction at a Time (gradient boosting) | https://regression-activity-wdr.streamlit.app/boosting | Boosting adds one small correction per round to fix what is still wrong, and validation error (not training error) tells you when to stop. |
 
 **Inside the Models** is a Streamlit app that explains three regression models to a visitor who knows what machine learning and regression are, but not how these algorithms turn data into predictions. All three sections use the same three datasets from the CDC/NCHS NHANES survey (fasting glucose, systolic blood pressure and lung function / FEV₁) and the same five example people, so you can follow one person through every model.
 
