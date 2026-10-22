@@ -10,9 +10,10 @@ import streamlit as st
 
 import m10
 import music_player
+import theme_p3
 
 LABELS = {"glucose": "Fasting glucose", "sbp": "Blood pressure", "fev1": "Lung function (FEV₁)"}
-UP, DOWN, NEUTRAL, ACCENT = "#f28e2b", "#1b7bbf", "#8a8f98", "#d62728"
+UP, DOWN, NEUTRAL, ACCENT = theme_p3.PINK, theme_p3.BLUE, theme_p3.LINE, theme_p3.CYAN
 
 
 def signed(v: float, d: int = 1) -> str:
@@ -246,11 +247,11 @@ def forest_page() -> None:
     x = alt.X("guess:Q", bin=alt.Bin(maxbins=30), title=f"Tree's guess ({u})", scale=alt.Scale(domain=[lo - pad, hi + pad]))
     hist = alt.Chart(df).mark_bar().encode(
         x=x, y=alt.Y("count():Q", title="Number of trees"),
-        color=alt.Color("used:N", legend=None, scale=alt.Scale(domain=[True, False], range=[ACCENT, "#cfd3d8"])),
+        color=alt.Color("used:N", legend=None, scale=alt.Scale(domain=[True, False], range=[ACCENT, theme_p3.DIM])),
         order=alt.Order("used:N"))
     marks = pd.DataFrame([{"v": partial, "what": label, "dash": 0}, {"v": person["observed"], "what": "Measured value", "dash": 1}])
     rules = alt.Chart(marks).mark_rule(size=3).encode(
-        x=alt.X("v:Q"), color=alt.Color("what:N", scale=alt.Scale(range=[ACCENT, "#111111"]), legend=alt.Legend(orient="bottom", title=None)),
+        x=alt.X("v:Q"), color=alt.Color("what:N", scale=alt.Scale(range=[ACCENT, theme_p3.INK]), legend=alt.Legend(orient="bottom", title=None)),
         strokeDash=alt.StrokeDash("dash:N", legend=None))
     st.altair_chart((hist + rules).properties(height=280), width="stretch")
     m1, m2 = st.columns(2)
@@ -312,7 +313,7 @@ def boosting_page() -> None:
     now = alt.Chart(pd.DataFrame({"Round": [r], "Prediction": [p["staged"][r]]})).mark_point(
         size=120, filled=True, color=UP).encode(x="Round:Q", y="Prediction:Q")
     obs = alt.Chart(pd.DataFrame({"y": [person["observed"]], "what": ["Measured value"]})).mark_rule(
-        strokeDash=[6, 4], color="#111111").encode(y="y:Q")
+        strokeDash=[6, 4], color=theme_p3.INK).encode(y="y:Q")
     st.altair_chart((line + now + obs).properties(height=260), width="stretch")
     st.caption(f"Dashed line = this person's measured value ({person['observed']:.1f} {u}). "
                "The prediction moves toward it in small steps but need not reach it, and it can drift past it.")
@@ -326,7 +327,7 @@ def boosting_page() -> None:
     pts = alt.Chart(sdf).mark_circle(opacity=0.5, size=40, color=ACCENT).encode(
         x=alt.X("Measured:Q", title=f"Measured ({u})", scale=alt.Scale(domain=[lo, hi])),
         y=alt.Y("Predicted:Q", title=f"Predicted after round {snap_round} ({u})", scale=alt.Scale(domain=[lo, hi])))
-    diag = alt.Chart(pd.DataFrame({"a": [lo, hi]})).mark_line(color="#111111", strokeDash=[4, 4]).encode(x="a:Q", y="a:Q")
+    diag = alt.Chart(pd.DataFrame({"a": [lo, hi]})).mark_line(color=theme_p3.INK, strokeDash=[4, 4]).encode(x="a:Q", y="a:Q")
     st.altair_chart((pts + diag).properties(height=300), width="stretch")
     st.caption("200 training people. Dots on the dashed diagonal are predicted perfectly. "
                "At round 0 everyone is predicted the same value (a flat row of dots); each round, dots move toward the diagonal.")
@@ -344,7 +345,7 @@ def boosting_page() -> None:
         color=alt.Color("Error:N", scale=alt.Scale(domain=["Training", "Validation"], range=[DOWN, UP]),
                         legend=alt.Legend(orient="bottom", title=None)))
     best = alt.Chart(pd.DataFrame({"Round": [gb["best_validation_round"]]})).mark_rule(color=ACCENT, size=2).encode(x="Round:Q")
-    chosen = alt.Chart(pd.DataFrame({"Round": [r]})).mark_rule(color="#111111", strokeDash=[4, 4]).encode(x="Round:Q")
+    chosen = alt.Chart(pd.DataFrame({"Round": [r]})).mark_rule(color=theme_p3.INK, strokeDash=[4, 4]).encode(x="Round:Q")
     st.altair_chart((curves + best + chosen).properties(height=280), width="stretch")
     st.markdown(
         f"Green line: the validation-best round, **{gb['best_validation_round']}** "
@@ -403,9 +404,11 @@ def home_page() -> None:
     st.info("All numbers come from models that were already trained and checked; nothing is retrained in the app. "
             "What you see are associations in survey data, not causes. Errors are in each dataset's own units, "
             "so don't compare them across datasets.")
+    st.caption("Music Track: Living With Determination - Mellow Velvet Mix")
 
 
 st.set_page_config(page_title="Inside the Models", layout="wide")
+theme_p3.apply()
 music_player.render()
 home_pg = st.Page(home_page, title="Main menu", url_path="home", default=True, icon="🏠")
 linear_pg = st.Page(linear_page, title="Push & Pull", url_path="linear")
