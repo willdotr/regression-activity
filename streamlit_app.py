@@ -9,6 +9,7 @@ import pandas as pd
 import streamlit as st
 
 import m10
+import music_player
 
 LABELS = {"glucose": "Fasting glucose", "sbp": "Blood pressure", "fev1": "Lung function (FEV₁)"}
 UP, DOWN, NEUTRAL, ACCENT = "#f28e2b", "#1b7bbf", "#8a8f98", "#d62728"
@@ -405,6 +406,7 @@ def home_page() -> None:
 
 
 st.set_page_config(page_title="Inside the Models", layout="wide")
+music_player.render()
 home_pg = st.Page(home_page, title="Main menu", url_path="home", default=True, icon="🏠")
 linear_pg = st.Page(linear_page, title="Push & Pull", url_path="linear")
 forest_pg = st.Page(forest_page, title="Wisdom of the Forest", url_path="forest")
